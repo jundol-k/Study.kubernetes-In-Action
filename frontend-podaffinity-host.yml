@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: frontend
+spec:
+ replicas: 5
+ selector:
+  matchLabels:
+   app: front
+ template: 
+  metadata:
+   name: frontend
+   labels:
+    app: front
+  spec:
+   affinity:
+    podAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+     - topologyKey: "kubernetes.io/hostname"
+       labelSelector:
+        matchExpressions:
+         - key: app
+           operator: In
+           values:
+           - backend
+   containers:
+   - image: luksa/kubia:v1
+     name: nodejs
+     resources:
+      requests:
+       cpu: 20m
