@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
  name: kubia
 spec:
- replicas: 3
+ replicas: 5
  selector:
   matchLabels:
    app: kubia
@@ -19,3 +19,8 @@ spec:
      resources:
       requests:
        cpu: 100m
+   tolerations:
+   - key: node-type
+     operator: Equal
+     value: production
+     effect: NoSchedule
